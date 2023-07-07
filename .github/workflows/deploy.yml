@@ -2,18 +2,18 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+    branches: "main"
 
 jobs:
-  deploy:
-    name: Deploy to GitHub Pages
+  build_site:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      # - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # If you're using npm, add this step then change the commands and cache key below to use `npm`
+      # - name: Install Node.js
+      #   uses: actions/setup-node@v3
       #   with:
       #     node-version: 18
       #     cache: npm
@@ -25,17 +25,19 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
       - name: build
         env:
           BASE_PATH: "/superdocs"
         run: |
           pnpm build
+          touch build/.nojekyll
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v1
         with:
           # this should match the `pages` option in your adapter-static options
-          path: 'build/'
+          path: "build/"
 
   deploy:
     needs: build_site
