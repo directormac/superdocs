@@ -1,8 +1,10 @@
 ---
+title: An Introduction
 description: Create a doc page with rich content.
+sidebar_postion: 0
 ---
 
-# Hello from Docusaurus
+# Go up
 
 Are you ready to create the documentation site for your open source project?
 
